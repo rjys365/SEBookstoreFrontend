@@ -1,0 +1,66 @@
+import React, { useEffect } from 'react';
+import { SearchBar } from '../component/SearchBar';
+import { Col, List, Row } from 'antd';
+//import './BookList.css';
+
+import {BOOKS} from '../const/book-const';
+import { BookCard } from '../component/BookCard';
+import { BookCarousel } from '../component/BookCarousel';
+import { LoginContext } from '../service/LoginContext';
+import { Navigate } from 'react-router-dom';
+import { fetchBookList } from '../service/FetchBookList';
+
+export function BookList() {
+    const login=React.useContext(LoginContext);
+    const [searchText, setSearchText] = React.useState('');
+    const [filterText, setFilterText] = React.useState('');
+    const [books, setBooks] = React.useState(null);
+    const handleSearchChange=(str)=>{
+        setSearchText(str);
+    }
+    const handleSearch=(str)=>{
+        setFilterText(str);
+    }
+    useEffect(()=>{
+        const set=async ()=>{setBooks(await fetchBookList());}
+        set();
+    },[]);
+
+
+    
+    if(!login.token){
+        //return <div>请登录</div>;
+        return <Navigate to="/login"/>;
+    }
+    
+    if(books===null){
+        return <div>loading</div>;
+    }
+    
+    const filteredBooks=filterText===''?books:books.filter((book)=>{return book.title.includes(filterText)||book.author.includes(filterText)});
+    return (
+        <div id='view-frame'>
+            <p>
+                <BookCarousel/>
+            </p>
+            
+            
+            <div>
+                <SearchBar onChange={handleSearchChange} value={searchText} onSearch={handleSearch}/>
+                <List
+                    grid={{gutter: 10, column: 4}}
+                    dataSource={filteredBooks}
+                    
+
+                    renderItem={item => (
+                        <List.Item>
+                            <BookCard info={item} />
+                        </List.Item>
+                    )}
+                />
+            </div>
+            
+            
+        </div>
+    );
+}

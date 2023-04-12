@@ -1,0 +1,23 @@
+.book-image{
+    vertical-align: middle;
+    max-width: 40%;
+    width:auto;
+    display: flex;
+    flex-direction: row;
+}
+
+.descriptions .price {
+    color:darkred !important;
+    font-size: 18px !important;
+}
+
+.descriptions{
+    display: inline-flex;
+    flex-direction: row;
+    max-width: 60%;
+}
+
+.book-detail-wrapper{
+    width:100%;
+    display: flex;
+}

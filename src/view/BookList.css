@@ -1,0 +1,17 @@
+#view-frame{
+    background-color: white;
+    border: 1px solid #e5e5e5;
+    border-radius: 3px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+    margin: 0 0 20px;
+    padding: 19px;
+}
+
+.ant-row {
+    display: flex;
+  }
+  
+  .ant-col {
+    flex-grow: 1;
+    min-width: 300;
+  }
