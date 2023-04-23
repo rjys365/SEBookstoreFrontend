@@ -33,7 +33,7 @@ export function Orders(){
                             title={<div><span>订单号: </span><span><Link to={'/orders/'+item.id}>{item.id}</Link></span></div>}
                             description={<div>
                                 <div><span>订单总价: ￥</span><span>{item.totalPrice}</span></div>
-                                <div>{item.firstItemTitle+'等'+item.itemCount+'件商品'}</div>
+                                <div>{item.firstItemTitle+(item.itemCount===1?'':'等'+item.itemCount+'件商品')}</div>
                             </div>}
                         />
                     </List.Item>
