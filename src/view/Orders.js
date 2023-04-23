@@ -2,11 +2,6 @@ import { Empty, List } from "antd";
 import React, { useContext, useEffect, useState } from "react";
 import { LoginContext } from "../service/LoginContext";
 import { Link, Navigate } from "react-router-dom";
-import { OrderDigest } from "../util/OrderDigest";
-
-const ORDERS=[
-    new OrderDigest(1,2,100,"book1"),
-];
 
 export function Orders(){
     const login=useContext(LoginContext);
