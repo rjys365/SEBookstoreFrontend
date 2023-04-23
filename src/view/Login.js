@@ -5,12 +5,14 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 export const Login=()=>{
     const navigate=useNavigate();
     const loginDispatch=useContext(LoginDispatchContext);
+    const [searchParams]=useSearchParams();
+    const backPath=searchParams.get('back');
     //const backPath=useSearchParams().
     const handleLogin=(e)=>{
         e.preventDefault();
         if(e.target.username.value==="rjys365"&&e.target.password.value==="123456"){
             loginDispatch({type:"login"});
-            navigate('/');
+            navigate(backPath?decodeURIComponent(backPath):"/");
         }
         else alert('无效登录！');
     }

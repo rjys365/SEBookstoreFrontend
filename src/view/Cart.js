@@ -40,7 +40,7 @@ export function Cart(){
     }
     
     if(!login.token){
-        return <Navigate to="/login"/>;
+        return <Navigate to={'/login?back='+encodeURIComponent('/cart')}/>;
     }
     if(cart===null)return (
         <div>

@@ -38,7 +38,7 @@ export function Profile() {
   const handleReset=()=>{
     form.setFieldsValue(profile);
   }
-  if(!login.token)return <Navigate to='/login' />;
+  if(!login.token)return <Navigate to={'/login?back='+encodeURIComponent('/profile')} />;
   return (
     <Typography>
       <Title level={2}>个人信息</Title>
