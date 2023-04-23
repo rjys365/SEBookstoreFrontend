@@ -4,11 +4,14 @@ import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { BOOKS } from "../const/book-const";
 import "./BookDetails.css"
 import { saveCart } from "../service/CartLocalStorage";
+import { Order } from "../util/Order";
+import { OrderItem } from "../util/OrderItem";
 export function BookDetails(){
     let {id}=useParams();
     id=Number(id);
     //const navigate=useNavigate();
     const [navigatingToCart,setNavigatingToCart]=useState(false);
+    const [navigatingToOrder,setNavigatingToOrder]=useState(0);
     const [cart, setCart] = React.useState(
         ()=>{
             let newCart=JSON.parse(localStorage.getItem('cart'));
@@ -23,9 +26,20 @@ export function BookDetails(){
     useEffect(()=>{saveCart(cart)},[cart]);
     //console.log(id);
     const book=BOOKS.find((book)=>{return book.id===id});
+    const postOrder=()=>{
+        const order=new Order(0,[new OrderItem(id,1)]);
+        const orderData=JSON.stringify(order);
+        fetch('http://localhost:8080/orders/',{
+            method:'POST',
+            headers:{
+                'Content-type': 'application/json'
+            },
+            body:orderData
+        });
+    }
     const handleBuy=()=>{
-        handleAdd();
-        setNavigatingToCart(true);
+        postOrder();
+        setNavigatingToOrder(1);
     }
     const handleAdd=()=>{
         let newCart=cart.slice();
@@ -40,6 +54,7 @@ export function BookDetails(){
     }
     if(!book)return <Empty />;
     if(navigatingToCart)return <Navigate to="/cart"/>;
+    if(navigatingToOrder)return <Navigate to="/orders"/>;//TODO: navigate to SPECIFIC order page
     return (
         <div className="book-detail-wrapper">
             <div className="book-image"><Image src={book.image} alt={book.title} width={300} /></div>
