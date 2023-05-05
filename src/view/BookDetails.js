@@ -6,10 +6,12 @@ import "./BookDetails.css"
 import { saveCart } from "../service/CartLocalStorage";
 import { Order } from "../util/Order";
 import { OrderItem } from "../util/OrderItem";
+import { LoginContext } from "../service/LoginContext";
 export function BookDetails(){
     let {id}=useParams();
     id=Number(id);
     //const navigate=useNavigate();
+    const login=React.useContext(LoginContext);
     const [navigatingToCart,setNavigatingToCart]=useState(false);
     const [navigatingToOrder,setNavigatingToOrder]=useState(0);
     const [cart, setCart] = React.useState(
@@ -27,7 +29,8 @@ export function BookDetails(){
     //console.log(id);
     const book=BOOKS.find((book)=>{return book.id===id});
     const postOrder=()=>{
-        const order=new Order(0,[new OrderItem(id,1)]);
+        const order=new Order(undefined,[new OrderItem(id,1)],login.userId);
+        console.log(login.id);
         const orderData=JSON.stringify(order);
         fetch('http://localhost:8080/orders/',{
             method:'POST',
@@ -35,11 +38,17 @@ export function BookDetails(){
                 'Content-type': 'application/json'
             },
             body:orderData
+        }).then(async (response)=>{
+            if(response.ok){
+                const order=await response.json();
+                console.log(order);
+                setNavigatingToOrder(order.id);
+            }
         });
     }
     const handleBuy=()=>{
         postOrder();
-        setNavigatingToOrder(1);
+        
     }
     const handleAdd=()=>{
         let newCart=cart.slice();
@@ -52,9 +61,12 @@ export function BookDetails(){
         }
         setCart(newCart);
     }
+    if(!login.token){
+        return <Navigate to={"/login?back="+encodeURIComponent('/book/'+id)}/>;
+    }
     if(!book)return <Empty />;
     if(navigatingToCart)return <Navigate to="/cart"/>;
-    if(navigatingToOrder)return <Navigate to="/orders"/>;//TODO: navigate to SPECIFIC order page
+    if(navigatingToOrder)return <Navigate to={"/orders/"+navigatingToOrder}/>;//TODO: navigate to SPECIFIC order page
     return (
         <div className="book-detail-wrapper">
             <div className="book-image"><Image src={book.image} alt={book.title} width={300} /></div>

@@ -1,6 +1,7 @@
 export class Order{
-    constructor(id,items){
+    constructor(id,items,userId){
         this.id=id;
         this.items=items;
+        this.userId=userId;
     }
 }
