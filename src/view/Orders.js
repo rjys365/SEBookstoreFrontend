@@ -8,7 +8,7 @@ export function Orders(){
     const [orders,setOrders]=useState(null);
     const loadOrders=()=>{
         const load=async ()=>{
-            const response=await fetch('http://localhost:8080/orders/allOrders');
+            const response=await fetch('http://localhost:8080/orders/allOrders?userId='+login.userId);
             const json=await response.json();
             setOrders(json);
         };
