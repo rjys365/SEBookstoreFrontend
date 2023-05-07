@@ -19,7 +19,7 @@ export function BookDetails(){
             let newCart=JSON.parse(localStorage.getItem('cart'));
             if(newCart===null){
                 const newCart=[];
-                localStorage.setItem('cart',JSON.parse(newCart));
+                localStorage.setItem('cart',JSON.stringify(newCart));
                 return newCart;
             }
             return newCart;
@@ -66,7 +66,7 @@ export function BookDetails(){
     }
     if(!book)return <Empty />;
     if(navigatingToCart)return <Navigate to="/cart"/>;
-    if(navigatingToOrder)return <Navigate to={"/orders/"+navigatingToOrder}/>;//TODO: navigate to SPECIFIC order page
+    if(navigatingToOrder)return <Navigate to={"/orders/"+navigatingToOrder}/>;// navigate to SPECIFIC order page
     return (
         <div className="book-detail-wrapper">
             <div className="book-image"><Image src={book.image} alt={book.title} width={300} /></div>
