@@ -8,6 +8,7 @@ import { Orders } from './view/Orders';
 import { Profile } from './view/Profile';
 import { Login } from './view/Login';
 import { OrderDetails } from './view/OrderDetails';
+import { UserManageMent } from './view/UserManagement';
 export const router=createBrowserRouter(createRoutesFromElements(
     <Route path="/" element={<Root/>}>
       <Route index element={<BookList/>}/>
@@ -17,5 +18,6 @@ export const router=createBrowserRouter(createRoutesFromElements(
       <Route path='orders/:id' element={<OrderDetails/>}/>
       <Route path='profile' element={<Profile/>}/>
       <Route path='login' element={<Login/>}/>
+      <Route path='userManagement' element={<UserManageMent/>}/>
     </Route>
   ))

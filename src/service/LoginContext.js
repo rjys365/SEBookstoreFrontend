@@ -17,15 +17,13 @@ export function LoginProvider({children}){
 function loginReducer(login,action){
     switch(action.type){
         case "login":{
-            return {
-                userId:1,
-                token:1,//TODO
-            };
+            return action.login;
         }
         case "logout":{
             return {
                 userId:null,
                 token:null,
+                role:null,
             };
         }
         default:

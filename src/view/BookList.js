@@ -7,7 +7,7 @@ import {BOOKS} from '../const/book-const';
 import { BookCard } from '../component/BookCard';
 import { BookCarousel } from '../component/BookCarousel';
 import { LoginContext } from '../service/LoginContext';
-import { Navigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { fetchBookList } from '../service/FetchBookList';
 
 export function BookList() {
@@ -36,10 +36,11 @@ export function BookList() {
     if(books===null){
         return <div>loading</div>;
     }
-    
+    console.log(login);
     const filteredBooks=filterText===''?books:books.filter((book)=>{return book.title.includes(filterText)||book.author.includes(filterText)});
     return (
         <div id='view-frame'>
+            {login.role===2?<div><Link to="/userManagement">管理用户</Link></div>:null}
             <p>
                 <BookCarousel/>
             </p>
