@@ -1,24 +1,19 @@
-import { useContext, useEffect, useState } from "react";
-import { LoginDispatchContext } from "../service/LoginContext";
-import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
+import {useContext, useEffect, useState} from "react";
+import {LoginDispatchContext} from "../service/LoginContext";
+import {Link, useNavigate, useSearchParams} from "react-router-dom";
+import {Spin} from "antd";
+import Title from "antd/es/typography/Title";
 
 export const Login = () => {
     const navigate = useNavigate();
     const loginDispatch = useContext(LoginDispatchContext);
     const [loginRequest, setLoginRequest] = useState(null);
-    const [loginResult, setLoginResult] = useState(null);
     const [searchParams] = useSearchParams();
 
     const backPath = searchParams.get('back');
-    //const backPath=useSearchParams().
     const handleLogin = (e) => {
         e.preventDefault();
-        // if(e.target.username.value==="rjys365"&&e.target.password.value==="123456"){
-        //     loginDispatch({type:"login"});
-        //     navigate(backPath?decodeURIComponent(backPath):"/");
-        // }
-        // else alert('无效登录！');
-        setLoginRequest({ username: e.target.username.value, password: e.target.password.value });
+        setLoginRequest({username: e.target.username.value, password: e.target.password.value});
     }
     const handleLoginSuccess = async (json) => {
         // 更新登录状态
@@ -55,23 +50,18 @@ export const Login = () => {
             login();
         }
     }, [loginRequest]);
-    useEffect(() => {
-        if (loginResult !== null) {
-            loginDispatch({ type: "login", token: loginResult.token, userId: loginResult.userId, role: loginResult.role });
-            navigate(backPath ? decodeURIComponent(backPath) : "/");
-        }
-    }, [loginResult, loginDispatch, navigate, backPath]);
-    if (loginRequest != null && loginResult === null) {
+    if (loginRequest != null) {
         return (<div>
-            <h1>请稍候</h1>
+            <Spin size="large"/>
         </div>);
     }
     return (<div>
-        <h1>登录</h1>
+        <Title level={4}>登录</Title>
         <form onSubmit={handleLogin}>
-            <input type="text" name="username" placeholder="username" />
-            <input type="password" name="password" placeholder="password" />
+            <input type="text" name="username" placeholder="username"/>
+            <input type="password" name="password" placeholder="password"/>
             <button type="submit">Login</button>
         </form>
+        <Title level={4}><Link to='/register'>注册</Link></Title>
     </div>);
 }
