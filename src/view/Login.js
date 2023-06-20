@@ -1,7 +1,7 @@
 import {useContext, useEffect, useState} from "react";
 import {LoginDispatchContext} from "../service/LoginContext";
 import {Link, useNavigate, useSearchParams} from "react-router-dom";
-import {Spin} from "antd";
+import {Button, Form, Input, Spin} from "antd";
 import Title from "antd/es/typography/Title";
 
 export const Login = () => {
@@ -11,9 +11,9 @@ export const Login = () => {
     const [searchParams] = useSearchParams();
 
     const backPath = searchParams.get('back');
-    const handleLogin = (e) => {
-        e.preventDefault();
-        setLoginRequest({username: e.target.username.value, password: e.target.password.value});
+    const handleLogin = (values) => {
+        // e.preventDefault();
+        setLoginRequest({username: values.username, password: values.password});
     }
     const handleLoginSuccess = async (json) => {
         // 更新登录状态
@@ -32,6 +32,29 @@ export const Login = () => {
         // 重定向到适当的页面
         navigate(backPath ? decodeURIComponent(backPath) : "/");
     };
+    const formItemLayout = {
+        labelCol: {
+            xs: {span: 24},
+            sm: {span: 8},
+        },
+        wrapperCol: {
+            xs: {span: 24},
+            sm: {span: 16},
+        },
+    };
+    const tailFormItemLayout = {
+        wrapperCol: {
+            xs: {
+                span: 24,
+                offset: 0,
+            },
+            sm: {
+                span: 16,
+                offset: 8,
+            },
+        },
+    };
+    const [form] = Form.useForm();
 
     useEffect(() => {
         if (loginRequest !== null) {
@@ -57,11 +80,44 @@ export const Login = () => {
     }
     return (<div>
         <Title level={4}>登录</Title>
-        <form onSubmit={handleLogin}>
-            <input type="text" name="username" placeholder="username"/>
-            <input type="password" name="password" placeholder="password"/>
-            <button type="submit">Login</button>
-        </form>
+        <Form
+            {...formItemLayout}
+            form={form}
+            name="register"
+            onFinish={handleLogin}
+            style={{maxWidth: 600}}
+            scrollToFirstError>
+            <Form.Item
+                name='username'
+                label='用户名'
+                rules={[
+                    {
+                        required: true,
+                        message: '请输入用户名'
+                    }
+                ]}
+            >
+                <Input/>
+            </Form.Item>
+            <Form.Item
+                name="password"
+                label="密码"
+                rules={[
+                    {
+                        required: true,
+                        message: '请输入密码',
+                    },
+                ]}
+                hasFeedback
+            >
+                <Input.Password/>
+            </Form.Item>
+            <Form.Item {...tailFormItemLayout}>
+                <Button type="primary" htmlType="submit">
+                    登录
+                </Button>
+            </Form.Item>
+        </Form>
         <Title level={4}><Link to='/register'>注册</Link></Title>
     </div>);
 }
