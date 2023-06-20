@@ -2,7 +2,6 @@ import { render } from "@testing-library/react";
 import { Button, List } from "antd";
 import React, { useEffect, useState } from "react";
 import { CartInfo } from "../component/CartInfo";
-import { BOOKS, CARTITEM } from "../const/book-const";
 import { LoginContext } from "../service/LoginContext";
 import { Navigate } from "react-router-dom";
 import { loadCart, saveCart } from "../service/CartLocalStorage";

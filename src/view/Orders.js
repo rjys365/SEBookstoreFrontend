@@ -12,9 +12,9 @@ export function Orders(){
             const json=await response.json();
             setOrders(json);
         };
-        load();
+        if(login.token)load();
     }
-    useEffect(()=>{loadOrders()},[]);
+    useEffect(()=>{loadOrders()},[login]);
     if(!login.token)return <Navigate to={'/login?back='+encodeURIComponent('/orders')}/>;
     if(orders===null)return (
         <div>

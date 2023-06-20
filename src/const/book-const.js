@@ -6,10 +6,4 @@ export const BOOKS=[
     new Book(3,'三国演义','罗贯中','人民文学出版社',3, 20, '/images/sgyy.jpg', '《三国演义》是中国古典四大名著之一，是中国古典文学的杰出代表作，也是中国现代文学的开山之作。'),
     new Book(4,'深入理解计算机系统','Randal E.Bryant','机械工业出版社',4, 20, '/images/csapp.jpg', '《深入理解计算机系统》是一本计算机系统原理的经典教材，由Randal E.Bryant和David R.O\'Hallaron合著，由机械工业出版社出版。'),
     new Book(5,'编译原理','Alfred V.Aho','机械工业出版社',5, 20, '/images/cptt.jpg', '《编译原理》是一本计算机系统原理的经典教材，由Randal E.Bryant和David R.O\'Hallaron合著，由机械工业出版社出版。'),
-];
-
-export const CARTITEM=[
-    new CartItem(1,2),
-    new CartItem(2,1),
-    new CartItem(3,1),
-]
+];//TODO:remove this
