@@ -1,14 +1,15 @@
 import {useContext, useEffect, useState} from "react";
-import {LoginDispatchContext} from "../service/LoginContext";
-import {Link, useNavigate, useSearchParams} from "react-router-dom";
+import {LoginContext} from "../service/LoginContext";
+import {Link, Navigate, useNavigate, useSearchParams} from "react-router-dom";
 import {Button, Form, Input, Spin} from "antd";
 import Title from "antd/es/typography/Title";
 
 export const Login = () => {
     const navigate = useNavigate();
-    const loginDispatch = useContext(LoginDispatchContext);
+    const {login,setLogin} = useContext(LoginContext);
     const [loginRequest, setLoginRequest] = useState(null);
     const [searchParams] = useSearchParams();
+    const [navigatingTo,setNavigatingTo] = useState(null);
 
     const backPath = searchParams.get('back');
     const handleLogin = (values) => {
@@ -17,20 +18,19 @@ export const Login = () => {
     }
     const handleLoginSuccess = async (json) => {
         // 更新登录状态
-        loginDispatch({
-            type: "login",
-            login: {
+        setLogin({
                 token: json.token,
                 userId: json.userId,
                 role: json.role,
             }
-        });
+        );
 
         // 等待状态更新完成
         await new Promise((resolve) => setTimeout(resolve, 0));
-
+        // console.log(backPath ? decodeURIComponent(backPath) : "/");
         // 重定向到适当的页面
-        navigate(backPath ? decodeURIComponent(backPath) : "/");
+        // navigate(backPath ? decodeURIComponent(backPath) : "/");
+        setNavigatingTo(backPath ? decodeURIComponent(backPath) : "/");
     };
     const formItemLayout = {
         labelCol: {
@@ -68,11 +68,14 @@ export const Login = () => {
                     return;
                 }
                 const json = await response.json();
-                handleLoginSuccess(json);
+                await handleLoginSuccess(json);
             };
             login();
         }
     }, [loginRequest]);
+    if(navigatingTo){
+        return <Navigate to={navigatingTo}/>
+    }
     if (loginRequest != null) {
         return (<div>
             <Spin size="large"/>

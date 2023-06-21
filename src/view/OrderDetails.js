@@ -1,25 +1,27 @@
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { LoginContext } from "../service/LoginContext";
 import { Link, Navigate, useParams } from "react-router-dom";
-import { Empty, List } from "antd";
+import {Empty, List, Spin} from "antd";
 
 
 export function OrderDetails(){
-    const login=useContext(LoginContext);
+    const {login}=useContext(LoginContext);
     const [order,setOrder]=useState(null);
     const {id}=useParams();
     const idNum=Number(id);
     useEffect(()=>{
+        if(!login||!login.token)return;
         const load=async ()=>{
         const response=await fetch('http://localhost:8080/orders/'+idNum);
         const json=await response.json();
         setOrder(json);
     };
-    load();},[idNum]);
+    load();},[idNum,login]);
+    if (login === undefined) return <Spin size="large"/>;
     if(!login.token)return <Navigate to={'/login?back='+encodeURIComponent('/orders/'+id)}/>;
     if(order===null)return (
         <div>
-            <Empty description="订单信息加载中"/>
+            <Spin size="large" tip="订单信息加载中"/>
         </div>
     )
     return (

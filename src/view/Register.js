@@ -1,12 +1,12 @@
 import Title from "antd/es/typography/Title";
 import {Button, Form, Input} from "antd";
 import {useContext, useEffect, useState} from "react";
-import {LoginDispatchContext} from "../service/LoginContext";
+import {LoginContext, LoginDispatchContext} from "../service/LoginContext";
 import {submitRegister} from "../service/SubmitRegister";
 import {useNavigate} from "react-router-dom";
 
 export function Register() {
-    const loginDispatch = useContext(LoginDispatchContext);
+    const {login,setLogin} = useContext(LoginContext);
     const [registerRequest,setRegisterRequest]=useState(null);
     const formItemLayout = {
         labelCol: {
@@ -44,7 +44,7 @@ export function Register() {
         const submit=async ()=>{
             try{
                 const response=await submitRegister(registerRequest);
-                loginDispatch({type:'login',login:response});
+                setLogin(response);
                 await new Promise((resolve) => setTimeout(resolve, 0));
                 navigate("/");
             }catch(e){

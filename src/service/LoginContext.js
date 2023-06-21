@@ -1,34 +1,20 @@
-import { createContext, useReducer } from "react";
+import {createContext, useEffect, useState} from "react";
+import {getLocalStorageLogin, setLocalStorageLogin} from "./LoginService";
 
-export const LoginContext=createContext(null);
-export const LoginDispatchContext=createContext(null);
+export const LoginContext = createContext(undefined);
 
-export function LoginProvider({children}){
-    const [login,dispatch]=useReducer(loginReducer,initialLogin);
+export const LoginProvider = ({children}) => {
+    const [login, setLogin] = useState(undefined);
+    useEffect(() => {
+        const newLogin = getLocalStorageLogin();
+        setLogin(newLogin);
+    }, []);
+    useEffect(() => {
+        if(login!==undefined)setLocalStorageLogin(login);
+    },[login]);
     return (
-        <LoginContext.Provider value={login}>
-            <LoginDispatchContext.Provider value={dispatch}>
-                {children}
-            </LoginDispatchContext.Provider>
+        <LoginContext.Provider value={{login,setLogin}} >
+            {children}
         </LoginContext.Provider>
-    );
+    )
 }
-
-function loginReducer(login,action){
-    switch(action.type){
-        case "login":{
-            return action.login;
-        }
-        case "logout":{
-            return {
-                userId:null,
-                token:null,
-                role:null,
-            };
-        }
-        default:
-            return login;
-    }
-}
-
-const initialLogin={token:null};
