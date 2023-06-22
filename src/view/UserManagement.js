@@ -3,9 +3,10 @@ import { LoginContext } from "../service/LoginContext";
 import { Navigate } from "react-router-dom";
 import { renderIntoDocument } from "react-dom/test-utils";
 import { UserList } from "../component/UserList";
+import {Spin} from "antd";
 
 export function UserManageMent(){
-    const login=useContext(LoginContext);
+    const {login}=useContext(LoginContext);
     const [userList,setUserList]=useState(null);
     const [fetchingUserList,setFetchingUserList]=useState(true);
     useEffect(()=>{
@@ -37,6 +38,9 @@ export function UserManageMent(){
             setFetchingUserList(true);
         };
         load();
+    }
+    if(login===undefined){
+        return <Spin size='large'/>
     }
     if(!login.token)return <Navigate to={'/login?back='+encodeURIComponent('/userManagement')}/>;
     if(login.role!==2)return <div>非管理员，无法管理用户。</div>;

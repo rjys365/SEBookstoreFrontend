@@ -11,7 +11,7 @@ export function Root(props) {
     const location = useLocation();
     const [messageApi, contextHolder] = message.useMessage();
     const [selectedKeys, setSelectedKeys] = useState([]);
-    const menuItemPathKeywords = ['/', 'cart', 'orders', 'profile'];
+    const menuItemPathKeywords = ['/', 'cart', 'orders', 'profile', 'myStatistics'];
     const pathname = location.pathname;
     const parsePathname = (pathname) => {
         let newSelectedKeys = [];
@@ -46,6 +46,9 @@ export function Root(props) {
                             </Menu.Item>
                             <Menu.Item key="3">
                                 <NavLink to="/profile">个人信息</NavLink>
+                            </Menu.Item>
+                            <Menu.Item key="4">
+                                <NavLink to="/myStatistics">我的统计</NavLink>
                             </Menu.Item>
                         </Menu>
                     </Header>

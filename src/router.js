@@ -10,6 +10,10 @@ import {Login} from './view/Login';
 import {OrderDetails} from './view/OrderDetails';
 import {UserManageMent} from './view/UserManagement';
 import {Register} from "./view/Register";
+import {BookSalesStatistics} from "./view/BookSalesStatistics";
+import {UserStatistics} from "./view/UserStatistics";
+import {MyStatistics} from "./view/MyStatistics";
+import {BookManagement} from "./view/BookManagement";
 
 export const router = createBrowserRouter(createRoutesFromElements(
     <Route path="/" element={<Root/>}>
@@ -22,5 +26,9 @@ export const router = createBrowserRouter(createRoutesFromElements(
         <Route path='login' element={<Login/>}/>
         <Route path='userManagement' element={<UserManageMent/>}/>
         <Route path='register' element={<Register/>}/>
+        <Route path="bookSalesStatistics" element={<BookSalesStatistics/>}/>
+        <Route path='userStatistics' element={<UserStatistics/>}/>
+        <Route path='myStatistics' element={<MyStatistics/>}/>
+        <Route path='bookManagement' element={<BookManagement/>}/>
     </Route>
 ))

@@ -123,7 +123,11 @@ export function Register() {
                         {
                             required: true,
                             message: '请输入电子邮箱'
-                        }
+                        },
+                        {
+                            type: 'email',
+                            message: '无效邮箱',
+                        },
                     ]}
                 >
                     <Input/>
