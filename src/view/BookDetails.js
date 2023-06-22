@@ -12,24 +12,23 @@ export function BookDetails() {
     let {id} = useParams();
     id = Number(id);
     //const navigate=useNavigate();
-    const {login} = React.useContext(LoginContext);
+    const {login} = useContext(LoginContext);
     const [navigatingToCart, setNavigatingToCart] = useState(false);
     const [navigatingToOrder, setNavigatingToOrder] = useState(0);
     const [book, setBook] = useState(undefined);
 
     const messageApi = useContext(MessageContext);
-    useEffect(()=>{
-        const op=async ()=>{
-            try{
-                const book=await getBookById(id);
+    useEffect(() => {
+        const op = async () => {
+            try {
+                const book = await getBookById(id);
                 setBook(book);
-            }
-            catch(e){
+            } catch (e) {
                 setBook(null);
             }
         };
         op();
-    },[]);
+    }, []);
     const postOrder = () => {
         const order = {id, quantity: 1};
         const orderData = JSON.stringify(order);
@@ -44,6 +43,8 @@ export function BookDetails() {
                 const order = await response.json();
                 // console.log(order);
                 setNavigatingToOrder(order.id);
+            } else {
+                messageApi.error('下单失败')
             }
         });
     }
@@ -57,7 +58,7 @@ export function BookDetails() {
         };
         op();
     }
-    if (login === undefined||book===undefined) return <Spin size="large"/>
+    if (login === undefined || book === undefined) return <Spin size="large"/>
     if (!login.token) {
         return <Navigate to={"/login?back=" + encodeURIComponent('/book/' + id)}/>;
     }

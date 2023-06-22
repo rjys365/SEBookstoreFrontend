@@ -1,8 +1,9 @@
-import {Button, Form, Input, Spin, Table} from "antd";
+import {Button, Form, Image, Input, Spin, Table} from "antd";
 import React, {useContext, useEffect, useRef, useState} from "react";
 import {LoginContext} from "../service/LoginContext";
 import {Navigate, useNavigate} from "react-router-dom";
 import {addCartItem, createOrderFromCart, getCart, setCartItem} from "../service/CartService";
+import {MessageContext} from "../service/MessageContext";
 
 const EditableContext = React.createContext(null);
 
@@ -62,8 +63,22 @@ const EditableCell = ({
                 rules={[
                     {
                         required: true,
-                        message: `${title} is required.`,
+                        message: `请输入${title}`,
                     },
+                    () => ({
+                        validator(_, value) {
+                            if (value === undefined || value === null || value === '') {
+                                return Promise.resolve();
+                            }
+
+                            const nonNegativeIntegerRegEx = /^\d+$/;
+                            if (!nonNegativeIntegerRegEx.test(value)) {
+                                return Promise.reject(new Error('件数应为非负整数'));
+                            }
+
+                            return Promise.resolve();
+                        },
+                    })
                 ]}
             >
                 <Input ref={inputRef} onPressEnter={save} onBlur={save}/>
@@ -79,6 +94,7 @@ const EditableCell = ({
 };
 
 export function Cart() {
+    const messageApi = useContext(MessageContext);
     const [form] = Form.useForm();
     const [cart, setCart] = useState(null);
     const [navigatingToOrder, setNavigatingToOrder] = useState(0);
@@ -151,8 +167,13 @@ export function Cart() {
         if (!login) return;
         if (submittingOrder === true) {
             const op = async () => {
-                const order = await createOrderFromCart(login.userId);
-                navigate('/orders/' + order.id.toString());
+                try {
+                    const order = await createOrderFromCart(login.userId);
+                    navigate('/orders/' + order.id.toString());
+                } catch (e) {
+                    messageApi.error('下单失败');
+                    setSubmittingOrder(false);
+                }
             };
             op();
         }
@@ -162,6 +183,14 @@ export function Cart() {
             title: '图片',
             dataIndex: 'image',
             key: 'image',
+            render: (text,item)=>{
+                return (<Image
+                    height={40}
+                    width={40}
+                    src={text}
+                    alt={item.title}
+                    />);
+            }
         },
         {
             title: '标题',
@@ -242,7 +271,7 @@ export function Cart() {
                 rowClassName={() => 'editable-row'}
                 pagination={false}
                 dataSource={cart}/>
-            {cart.length>0?(<Button type="primary" onClick={handleSubmit}>提交订单</Button>):null}
+            {cart.length > 0 ? (<Button type="primary" onClick={handleSubmit}>提交订单</Button>) : null}
         </div>
     )
 }
