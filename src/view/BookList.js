@@ -30,16 +30,12 @@ export function BookList() {
         const newLogin=localStorage.getItem('login');
     })
 
-    if(login===undefined){
+    if(login===undefined||books===null){
         return <Spin size='large'/>
     }
     if(login===null||!login.token){
         //return <div>请登录</div>;
         return <Navigate to="/login"/>;
-    }
-    
-    if(books===null){
-        return <div>loading</div>;
     }
     const filteredBooks=filterText===''?books:books.filter((book)=>{return book.title.includes(filterText)||book.author.includes(filterText)});
     return (
