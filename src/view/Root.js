@@ -1,15 +1,17 @@
 import React, {useContext, useEffect, useState} from "react";
 import './Root.css';
-import {Breadcrumb, Layout, Menu, theme, SubMenu, message} from 'antd';
+import {Breadcrumb, Layout, Menu, theme, SubMenu, message, Spin} from 'antd';
 import {NavLink, Outlet, useLocation} from "react-router-dom";
 import {LoginContext, LoginProvider} from "../service/LoginContext";
 import {MessageProvider} from "../service/MessageContext";
+import {getLocalStorageLogin} from "../service/LoginService";
 
 const {Header, Content, Footer} = Layout;
 
 export function Root(props) {
     const location = useLocation();
     const [messageApi, contextHolder] = message.useMessage();
+    const [login, setLogin] = useState(undefined);
     const [selectedKeys, setSelectedKeys] = useState([]);
     const menuItemPathKeywords = ['/', 'cart', 'orders', 'profile', 'myStatistics'];
     const pathname = location.pathname;
@@ -23,7 +25,14 @@ export function Root(props) {
     }
     useEffect(() => {
         parsePathname(pathname);
+        const newLogin = getLocalStorageLogin();
+        setLogin(newLogin);
     }, [pathname]);
+    useEffect(() => {
+        const newLogin = getLocalStorageLogin();
+        setLogin(newLogin);
+    }, []);
+    if (login === undefined) return <Spin></Spin>
     return (
         <MessageProvider>
             <LoginProvider>
@@ -50,6 +59,13 @@ export function Root(props) {
                             <Menu.Item key="4">
                                 <NavLink to="/myStatistics">我的统计</NavLink>
                             </Menu.Item>
+                            {
+                                login ? (
+                                    <Menu.Item key="5">
+                                        <NavLink to="/logout">注销</NavLink>
+                                    </Menu.Item>
+                                ) : null
+                            }
                         </Menu>
                     </Header>
                     <Content style={{padding: '0 50px'}}>

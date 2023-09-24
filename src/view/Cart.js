@@ -169,7 +169,9 @@ export function Cart() {
             const op = async () => {
                 try {
                     const order = await createOrderFromCart(login.userId);
-                    navigate('/orders/' + order.id.toString());
+                    alert("下单成功");
+                    // navigate('/orders/' + order.id.toString());
+                    // TODO: listen order
                 } catch (e) {
                     messageApi.error('下单失败');
                     setSubmittingOrder(false);

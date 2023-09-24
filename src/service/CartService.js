@@ -36,7 +36,7 @@ export const setCartItem = async (userId, bookId, quantity) => {
 }
 
 export const createOrderFromCart = async (userId) => {
-    const response = await fetch(BACKEND_SERVER_ENDPOINT + 'orders/?userId=' + userId.toString() + '&from=cart',
+    const response = await fetch(BACKEND_SERVER_ENDPOINT + 'orders/async/?userId=' + userId.toString() + '&from=cart',
         {
             method: 'POST',
         });

@@ -14,6 +14,7 @@ import {BookSalesStatistics} from "./view/BookSalesStatistics";
 import {UserStatistics} from "./view/UserStatistics";
 import {MyStatistics} from "./view/MyStatistics";
 import {BookManagement} from "./view/BookManagement";
+import {Logout} from "./view/Logout";
 
 export const router = createBrowserRouter(createRoutesFromElements(
     <Route path="/" element={<Root/>}>
@@ -30,5 +31,6 @@ export const router = createBrowserRouter(createRoutesFromElements(
         <Route path='userStatistics' element={<UserStatistics/>}/>
         <Route path='myStatistics' element={<MyStatistics/>}/>
         <Route path='bookManagement' element={<BookManagement/>}/>
+        <Route path='logout' element={<Logout/>}/>
     </Route>
 ))

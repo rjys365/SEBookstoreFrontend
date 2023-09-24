@@ -19,7 +19,7 @@ export const Login = () => {
     const handleLoginSuccess = async (json) => {
         // 更新登录状态
         setLogin({
-                token: json.token,
+                token: json.userId,
                 userId: json.userId,
                 role: json.role,
             }
@@ -59,8 +59,9 @@ export const Login = () => {
     useEffect(() => {
         if (loginRequest !== null) {
             const login = async () => {
-                const response = await fetch('http://localhost:8080/users/login?username=' + loginRequest.username + "&password=" + loginRequest.password, {
-                    method: 'POST'
+                const response = await fetch('http://localhost:8080/login/?username=' + loginRequest.username + "&password=" + loginRequest.password, {
+                    method: 'POST',
+                    credentials: 'include'
                 });
                 if (response.status !== 200) {
                     alert('登录失败！');
