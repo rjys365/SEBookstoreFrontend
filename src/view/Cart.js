@@ -170,7 +170,7 @@ export function Cart() {
                 try {
                     const order = await createOrderFromCart(login.userId);
                     alert("下单成功");
-                    // navigate('/orders/' + order.id.toString());
+                    navigate('/orders/');
                     // TODO: listen order
                 } catch (e) {
                     messageApi.error('下单失败');
