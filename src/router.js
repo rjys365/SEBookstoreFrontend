@@ -15,6 +15,7 @@ import {UserStatistics} from "./view/UserStatistics";
 import {MyStatistics} from "./view/MyStatistics";
 import {BookManagement} from "./view/BookManagement";
 import {Logout} from "./view/Logout";
+import {OrderDetailsAsync} from "./view/OrderDetailsAsync";
 
 export const router = createBrowserRouter(createRoutesFromElements(
     <Route path="/" element={<Root/>}>
@@ -23,6 +24,7 @@ export const router = createBrowserRouter(createRoutesFromElements(
         <Route path='cart' element={<Cart/>}/>
         <Route path='orders' element={<Orders/>}/>
         <Route path='orders/:id' element={<OrderDetails/>}/>
+        <Route path='orders/:uuid/async' element={<OrderDetailsAsync/>}/>
         <Route path='profile' element={<Profile/>}/>
         <Route path='login' element={<Login/>}/>
         <Route path='userManagement' element={<UserManageMent/>}/>
