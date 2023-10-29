@@ -13,7 +13,7 @@ export function Root(props) {
     const [messageApi, contextHolder] = message.useMessage();
     const [login, setLogin] = useState(undefined);
     const [selectedKeys, setSelectedKeys] = useState([]);
-    const menuItemPathKeywords = ['/', 'cart', 'orders', 'profile', 'myStatistics'];
+    const menuItemPathKeywords = ['/', 'bookAuthorSearch', 'cart', 'orders', 'profile', 'myStatistics', 'logout'];
     const pathname = location.pathname;
     const parsePathname = (pathname) => {
         let newSelectedKeys = [];
@@ -48,20 +48,23 @@ export function Root(props) {
                                 <NavLink to="/">图书列表</NavLink>
                             </Menu.Item>
                             <Menu.Item key="1">
-                                <NavLink to="/cart">购物车</NavLink>
+                                <NavLink to="/bookAuthorSearch">按作者搜索</NavLink>
                             </Menu.Item>
                             <Menu.Item key="2">
-                                <NavLink to="/orders">订单</NavLink>
+                                <NavLink to="/cart">购物车</NavLink>
                             </Menu.Item>
                             <Menu.Item key="3">
-                                <NavLink to="/profile">个人信息</NavLink>
+                                <NavLink to="/orders">订单</NavLink>
                             </Menu.Item>
                             <Menu.Item key="4">
+                                <NavLink to="/profile">个人信息</NavLink>
+                            </Menu.Item>
+                            <Menu.Item key="5">
                                 <NavLink to="/myStatistics">我的统计</NavLink>
                             </Menu.Item>
                             {
                                 login ? (
-                                    <Menu.Item key="5">
+                                    <Menu.Item key="6">
                                         <NavLink to="/logout">注销</NavLink>
                                     </Menu.Item>
                                 ) : null
