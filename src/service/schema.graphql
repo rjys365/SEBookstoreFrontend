@@ -1,0 +1,26 @@
+type Book {
+    id: ID!
+    title: String!
+    author: String!
+    publisher: String!
+    stock: Int!
+    price: Float!
+    introduction: String
+    image: String
+    bookInfo: BookInfo
+}
+
+type BookInfo {
+    extraInfo: [KeyValuePair] # 表示键值对的列表
+    tags: [String] # 标签的列表
+}
+
+type KeyValuePair {
+    key: String!
+    value: String!
+}
+
+type Query{
+    searchBooksByTitle(titleContains: String!): [Book]
+    allBooks: [Book]
+}

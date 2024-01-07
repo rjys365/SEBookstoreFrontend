@@ -17,6 +17,7 @@ import {BookManagement} from "./view/BookManagement";
 import {Logout} from "./view/Logout";
 import {OrderDetailsAsync} from "./view/OrderDetailsAsync";
 import {BookAuthorSearch} from "./view/BookAuthorSearch";
+import {BookTagSearch} from "./view/BookTagSearch";
 
 export const router = createBrowserRouter(createRoutesFromElements(
     <Route path="/" element={<Root/>}>
@@ -36,5 +37,6 @@ export const router = createBrowserRouter(createRoutesFromElements(
         <Route path='bookManagement' element={<BookManagement/>}/>
         <Route path='logout' element={<Logout/>}/>
         <Route path='bookAuthorSearch' element={<BookAuthorSearch/>}/>
+        <Route path='bookTagSearch' element={<BookTagSearch/>}/>
     </Route>
 ))

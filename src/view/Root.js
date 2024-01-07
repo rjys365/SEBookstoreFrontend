@@ -13,7 +13,7 @@ export function Root(props) {
     const [messageApi, contextHolder] = message.useMessage();
     const [login, setLogin] = useState(undefined);
     const [selectedKeys, setSelectedKeys] = useState([]);
-    const menuItemPathKeywords = ['/', 'bookAuthorSearch', 'cart', 'orders', 'profile', 'myStatistics', 'logout'];
+    const menuItemPathKeywords = ['/', 'bookAuthorSearch', 'cart', 'orders', 'profile', 'myStatistics', 'bookTagSearch', 'logout'];
     const pathname = location.pathname;
     const parsePathname = (pathname) => {
         let newSelectedKeys = [];
@@ -62,9 +62,12 @@ export function Root(props) {
                             <Menu.Item key="5">
                                 <NavLink to="/myStatistics">我的统计</NavLink>
                             </Menu.Item>
+                            <Menu.Item key="6">
+                                <NavLink to="/bookTagSearch">按标签搜索图书</NavLink>
+                            </Menu.Item>
                             {
                                 login ? (
-                                    <Menu.Item key="6">
+                                    <Menu.Item key="7">
                                         <NavLink to="/logout">注销</NavLink>
                                     </Menu.Item>
                                 ) : null

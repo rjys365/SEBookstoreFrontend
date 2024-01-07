@@ -8,23 +8,27 @@ import {BookCarousel} from '../component/BookCarousel';
 import {LoginContext} from '../service/LoginContext';
 import {Link, Navigate} from 'react-router-dom';
 import {fetchBookList} from '../service/FetchBookList';
+import {getBookByTitleContainingGraphQL, getBooksGraphQL} from "../service/BookGraphQLService";
 
 export function BookList() {
     // const [login,setLogin]=useState(undefined);
     const {login} = useContext(LoginContext);
 
     const [searchText, setSearchText] = React.useState('');
-    const [filterText, setFilterText] = React.useState('');
+    // const [filterText, setFilterText] = React.useState('');
     const [books, setBooks] = React.useState(null);
     const handleSearchChange = (str) => {
         setSearchText(str);
     }
     const handleSearch = (str) => {
-        setFilterText(str);
+        const set = async () => {
+            setBooks(await getBookByTitleContainingGraphQL(str));
+        }
+        set();
     }
     useEffect(() => {
         const set = async () => {
-            setBooks(await fetchBookList());
+            setBooks(await getBooksGraphQL());
         }
         set();
     }, []);
@@ -39,9 +43,9 @@ export function BookList() {
         //return <div>请登录</div>;
         return <Navigate to="/login"/>;
     }
-    const filteredBooks = filterText === '' ? books : books.filter((book) => {
-        return book.title.includes(filterText) || book.author.includes(filterText)
-    });
+    // const filteredBooks = filterText === '' ? books : books.filter((book) => {
+    //     return book.title.includes(filterText) || book.author.includes(filterText)
+    // });
     return (
         <div id='view-frame'>
             {login.role === 2 ? (
@@ -64,7 +68,7 @@ export function BookList() {
                 <SearchBar onChange={handleSearchChange} value={searchText} onSearch={handleSearch}/>
                 <List
                     grid={{gutter: 10, column: 4}}
-                    dataSource={filteredBooks}
+                    dataSource={books}
 
 
                     renderItem={item => (
