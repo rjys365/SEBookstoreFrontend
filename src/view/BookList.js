@@ -57,6 +57,8 @@ export function BookList() {
                     <Link to='/userStatistics'>用户购买统计</Link>
                     <span> </span>
                     <Link to='bookManagement'>管理图书</Link>
+                    <span> </span>
+                    <Link to='wordCount'>词频统计</Link>
                 </div>
             ) : null}
             <p>
